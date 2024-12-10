@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>homework16</title>
+  </head>
+  <body>
+    <script>
+      class Student {
+        constructor(firstName, lastName, birthYear, grades = []) {
+          this.firstName = firstName;
+          this.lastName = lastName;
+          this.birthYear = birthYear;
+          this.grades = grades;
+          this.attendance = new Array(25).fill(null);
+          this.attendanceIndex = 0;
+        }
+
+        get age() {
+          return new Date().getFullYear() - this.birthYear;
+        }
+
+        get averageGrade() {
+          return (
+            this.grades.reduce((sum, grade) => sum + grade, 0) /
+              this.grades.length || 0
+          );
+        }
+
+        present() {
+          if (this.attendanceIndex < 25) {
+            this.attendance[this.attendanceIndex++] = true;
+          } else {
+            console.error("Масив відвідуваності переповнений");
+          }
+        }
+
+        absent() {
+          if (this.attendanceIndex < 25) {
+            this.attendance[this.attendanceIndex++] = false;
+          } else {
+            console.error("Масив відвідуваності переповнений");
+          }
+        }
+
+        summary() {
+          const averageAttendance =
+            this.attendance.filter(Boolean).length / this.attendanceIndex;
+          if (this.averageGrade > 90 && averageAttendance > 0.9) {
+            return "Молодець!";
+          } else if (this.averageGrade > 90 || averageAttendance > 0.9) {
+            return "Добре, але можна краще";
+          } else {
+            return "Редиска!";
+          }
+        }
+      }
+      const student1 = new Student("Марія", "Прус", 2001, [99, 100, 99]);
+      const student2 = new Student("Олег", "Іванович", 2002, [85, 90, 87]);
+      const student3 = new Student("Катерина", "КІт", 1999, [99, 90, 98]);
+      console.log(student1.age);
+      console.log(student1.averageGrade);
+      student1.present();
+      student1.present();
+      student1.absent();
+      console.log(student1.summary());
+      student2.present();
+      student2.absent();
+      student2.absent();
+      console.log(student2.summary());
+      student3.present();
+      student3.absent();
+      student3.absent();
+      console.log(student3.summary());
+    </script>
+  </body>
+</html>
